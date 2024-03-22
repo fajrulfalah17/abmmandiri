@@ -40,7 +40,7 @@ Route::prefix('admin')->group(function() {
         Route::get('/rdm-madrasah/{id}', [App\Http\Controllers\MadrasahController::class, 'rdm'])->name('rdm-madrasah');
         Route::put('/rdm-madrasah/{id}/update', [App\Http\Controllers\MadrasahController::class, 'updateRdm'])->name('madrasah.updateRdm');
 
-
+        Route::resource('/pengumuman', App\Http\Controllers\PengumumanController::class);
     });
 });
 

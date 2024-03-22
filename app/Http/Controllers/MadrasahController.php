@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Madrasah;
 use App\Models\RdmMadrasah;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,23 +16,36 @@ class MadrasahController extends Controller
     public function index()
     {
         $data = Madrasah::latest()->get();
+        $roles = Auth::user()->getRoleNames()->toArray();
+        $isAdmin = in_array("admin", $roles);
+        $isMadrasah = in_array("madrasah", $roles);
 
-        if (request()->ajax()) {
-            // $query = User::query()->where('posisi', 'ADMIN')->where('id', '<>', 1);
-            $query = Madrasah::with('users')->get();
-
-            return DataTables::of($query)
-                ->addColumn('action', function ($item) {
-                    return '
-                        <a href="' . route('madrasah.edit', $item->id). '" class="btn btn-warning btn-sm shadow-sm mr-1" title="Edit"><i class="fas fa-pen"></i></a>
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#hapusModal_' . $item->id .'"><i class="fas fa-trash-alt"></i></button>
-                    ';
-                })
-                ->rawColumns(['action'])
-                ->make();
+        if($isAdmin)
+        {
+            if (request()->ajax()) {
+                $query = Madrasah::with('users')->get();
+    
+                return DataTables::of($query)
+                    ->addColumn('action', function ($item) {
+                        return '
+                            <a href="' . route('madrasah.edit', $item->id). '" class="btn btn-warning btn-sm shadow-sm mr-1" title="Edit"><i class="fas fa-pen"></i></a>
+                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#hapusModal_' . $item->id .'"><i class="fas fa-trash-alt"></i></button>
+                        ';
+                    })
+                    ->rawColumns(['action'])
+                    ->make();
+            }
+            return view('pages.madrasah.index', compact('data'));
         }
-        
-        return view('pages.madrasah.index', compact('data'));
+
+        else if($isMadrasah) {
+            
+            $userId = Auth::user()->id;
+            $madrasah = Madrasah::with('users')->where('users_id', $userId)->first();
+
+            return view('pages.madrasah.edit', compact('madrasah'));
+                
+        }
     }
 
     public function edit($id)

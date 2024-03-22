@@ -9,73 +9,35 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="font-size-14 mb-3">Pengumuman : </h5>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="left-content">
-                                <h5>Ini Judul</h5>
+                    <h5 class=" mb-3">Pengumuman : </h5>
+                    @php
+                        echo($batas_waktu);
+                    @endphp
+                    @foreach ($pengumuman as $data)
+                        <div class="card">
+                            <div class="card-header @if ($batas_waktu < $data->tanggal) bg-success @endif">
+                                <div class="left-content">
+                                    <h5 class="font-size-14 @if ($batas_waktu < $data->tanggal) text-white @endif">{{ $data->judul }}</h5>
+                                </div>
+                                <div class="right-content">
+                                    <p class="float-sm-end @if ($batas_waktu < $data->tanggal)
+                                        text-white
+                                    @else
+                                        text-muted
+                                    @endif font-size-13">
+                                        <i class="fas fa-calendar-week"></i> {{ TanggalID($data->tanggal) }}
+                                        <i class="fas fa-clock"></i> {{ $data->jam }}
+                                    </p>
+                                </div>
                             </div>
-                            <div class="right-content">
-                                <p class="float-sm-end text-muted font-size-13">
-                                    <i class="fas fa-calendar-week"></i> 12 July, 2021
-                                    <i class="fas fa-clock"></i> 19.00
+                            <div class="card-body">
+                                <p class="text-muted">
+                                    {!! $data->isi !!}
+
                                 </p>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <p class="text-muted">Maecenas non vestibulum ante, nec
-                                efficitur orci. Duis eu ornare mi, quis bibendum quam. Etiam
-                                imperdiet aliquam purus sit amet rhoncus. Vestibulum pretium
-                                consectetur leo, in mattis ipsum sollicitudin eget. Pellentesque
-                                vel mi tortor.
-                                Nullam vitae maximus dui dolor sit amet, consectetur adipiscing
-                                elit.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="left-content">
-                                <h5>Ini Judul</h5>
-                            </div>
-                            <div class="right-content">
-                                <p class="float-sm-end text-muted font-size-13">
-                                    <i class="fas fa-calendar-week"></i> 12 July, 2021
-                                    <i class="fas fa-clock"></i> 19.00
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">Maecenas non vestibulum ante, nec
-                                efficitur orci. Duis eu ornare mi, quis bibendum quam. Etiam
-                                imperdiet aliquam purus sit amet rhoncus. Vestibulum pretium
-                                consectetur leo, in mattis ipsum sollicitudin eget. Pellentesque
-                                vel mi tortor.
-                                Nullam vitae maximus dui dolor sit amet, consectetur adipiscing
-                                elit.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="left-content">
-                                <h5>Ini Judul</h5>
-                            </div>
-                            <div class="right-content">
-                                <p class="float-sm-end text-muted font-size-13">
-                                    <i class="fas fa-calendar-week"></i> 12 July, 2021
-                                    <i class="fas fa-clock"></i> 19.00
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p class="text-muted">Maecenas non vestibulum ante, nec
-                                efficitur orci. Duis eu ornare mi, quis bibendum quam. Etiam
-                                imperdiet aliquam purus sit amet rhoncus. Vestibulum pretium
-                                consectetur leo, in mattis ipsum sollicitudin eget. Pellentesque
-                                vel mi tortor.
-                                Nullam vitae maximus dui dolor sit amet, consectetur adipiscing
-                                elit.</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -91,6 +53,11 @@
             justify-content: space-between;
             background-color: #f4f4f4;
             height: 100%;
+        }
+
+        .card-body {
+            padding: 10px 24px;
+
         }
 
         .left-content,
