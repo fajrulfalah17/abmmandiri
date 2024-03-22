@@ -1,12 +1,12 @@
 @extends('layouts.main')
-
 @section('title')
-    Roles
+    User Admin
 @endsection
 
+
 @section('content')
-    @foreach ($roles as $item)
-        <div id="hapusRoles_{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
+    @foreach ($users as $item)
+        <div id="hapusModal_{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
             aria-hidden="true" data-bs-scroll="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -15,7 +15,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('roles.destroy', $item->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('user-admin.destroy', $item->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('delete')
 
@@ -25,7 +26,7 @@
                                 <button type="button" class="btn btn-secondary btn-sm waves-effect"
                                     data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light">Delete
-                                    </button>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -37,14 +38,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="flex-container mb-4">
-                    <h4 class="card-title">Roles</h4>
-                    {{-- <a href="{{ route('roles.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a> --}}
+                    <h4 class="card-title">User</h4>
+                    <a href="{{ route('user-admin.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
                 </div>
                 <table class="table table-search row-border hover" id="crudTable">
                     <thead>
                         <tr>
                             <th width="4%">#</th>
-                            <th>Roles</th>
+                            <th>Nama</th>
+                            <th>Username</th>
                             <th width="10%"><i class="fa fa-cog"></i></th>
                         </tr>
                     </thead>
@@ -90,7 +92,7 @@
             ],
             ordering: true,
             ajax: {
-                url: '{{ route('roles.index') }}',
+                url: '{{ route('user-admin.index') }}',
 
             },
             columns: [{
@@ -104,6 +106,17 @@
                 },
                 {
                     data: 'name',
+                    render: function(data) {
+                        if (data == null) {
+                            return '-'
+                        }
+                        return data;
+
+                    },
+                    orderable: true
+                },
+                {
+                    data: 'username',
                     render: function(data) {
                         if (data == null) {
                             return '-'

@@ -15,7 +15,7 @@
                     <div class="mb-3">
                         <label for="formrow-firstname-input" class="form-label">Nama Roles</label>
                         <input type="text" class="form-control" placeholder="" name="name"
-                            value="{{ old('name', $roles->name) }}" id="formrow-firstname-input">
+                            value="{{ old('name', $roles->name) }}" id="formrow-firstname-input" readonly>
                     </div>
 
                     <div class="row">

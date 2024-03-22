@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'posisi'
     ];
 
     /**
@@ -43,4 +44,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function madrasah(){
+        return $this->hasOne(Madrasah::class, 'users_id', 'id');
+    }
+
+    // public function teachers(){
+    //     return $this->hasOne(Teacher::class, 'user_id', 'id');
+    // }
 }

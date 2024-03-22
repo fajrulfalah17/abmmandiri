@@ -41,14 +41,14 @@
             <li class="menu-title" data-key="t-applications">Applications</li>
 
             <li>
-                <a href="javascript: void(0);" class="has-arrow">
+                {{-- <a href="{{ route('madrasah.index') }}" class="has-arrow">
                     <i class="bx bx-envelope icon nav-icon"></i>
                     <span class="menu-item" data-key="t-email">Data Madrasah</span>
+                </a> --}}
+                <a href="{{ route('madrasah.index') }}">
+                    <i class="bx bx-envelope icon nav-icon"></i>
+                    <span class="menu-item" data-key="t-madrasah">Data Madrasah</span>
                 </a>
-                <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="email-inbox.html" data-key="t-inbox">Inbox</a></li>
-                    <li><a href="email-read.html" data-key="t-read-email">Read Email</a></li>
-                </ul>
             </li>
 
             <li>
@@ -112,10 +112,10 @@
                     <span class="menu-item" data-key="t-email">Authentication</span>
                 </a>
                 <ul class="sub-menu" aria-expanded="false">
-                    <li><a href="email-inbox.html" data-key="t-inbox">User</a></li>
+                    <li><a href="{{ route('user-admin.index') }}" data-key="t-inbox">User Admin</a></li>
                     <li><a href="email-inbox.html" data-key="t-inbox">User Guru</a></li>
                     <li><a href="email-inbox.html" data-key="t-inbox">User Pejabat</a></li>
-                    <li><a href="email-inbox.html" data-key="t-inbox">User Madrasah</a></li>
+                    <li><a href="{{ route('user-madrasah.index') }}" data-key="t-inbox">User Madrasah</a></li>
                     <li><a href="{{ route('roles.index') }}" data-key="t-read-email">Roles</a></li>
                     <li><a href="{{ route('permission') }}" data-key="t-read-email">Permission</a></li>
                 </ul>
