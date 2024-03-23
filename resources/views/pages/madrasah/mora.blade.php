@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    Data Mora
+    Data Moda Pelaksanaan
 @endsection
 
 
@@ -10,7 +10,7 @@
             <div class="card">
                 <div class="card-body p-0">
                     <div class="user-profile-img">
-                        <img src="{{ asset('Admin/dist/assets/images/pattern-bg.jpg') }}"
+                        <img src="{{ asset('Admin/dist/assets/images/patern.jpg') }}"
                             class="profile-img profile-foreground-img rounded-top" style="height: 120px;" alt="">
 
                     </div>
@@ -136,7 +136,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ route('mora-madrasah', $madrasah->id) }}" role="tab">
-                                <span>Moda Ujian</span>
+                                <span>Moda Pelaksanaan</span>
                             </a>
                         </li>
                         <li class="nav-item">
