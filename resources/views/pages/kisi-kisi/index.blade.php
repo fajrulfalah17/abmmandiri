@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    Pengumuman
+    Kisi-kisi
 @endsection
 
 
@@ -15,12 +15,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('pengumuman.destroy', $item->id) }}" method="POST"
+                        <form action="{{ route('kisi-kisi.destroy', $item->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('delete')
 
-                            <p>Yakin ingin menghapus data <b style="color: red">{{ $item->judul }}</b> ?</p>
+                            <p>Yakin ingin menghapus data <b style="color: red">{{ $item->nama }}</b> ?</p>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm waves-effect"
@@ -38,17 +38,16 @@
         <div class="card">
             <div class="card-body">
                 <div class="flex-container mb-4">
-                    <h4 class="card-title">Pengumuman</h4>
-                    <a href="{{ route('pengumuman.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
+                    <h4 class="card-title">Kisi-kisi</h4>
+                    <a href="{{ route('kisi-kisi.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
                 </div>
                 <table class="table table-search row-border hover" id="crudTable">
                     <thead>
                         <tr>
                             <th width="4%">#</th>
-                            <th>Judul</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>Status</th>
+                            <th>Publisher</th>
+                            <th>Kegiatan</th>
+                            <th>Kisi-kisi</th>
                             <th width="10%"><i class="fa fa-cog"></i></th>
                         </tr>
                     </thead>
@@ -94,7 +93,7 @@
             ],
             ordering: true,
             ajax: {
-                url: '{{ route('pengumuman.index') }}',
+                url: '{{ route('kisi-kisi.index') }}',
 
             },
             columns: [{
@@ -107,7 +106,7 @@
                     }
                 },
                 {
-                    data: 'judul',
+                    data: 'guru',
                     render: function(data) {
                         if (data == null) {
                             return '-'
@@ -118,7 +117,7 @@
                     orderable: true
                 },
                 {
-                    data: 'tanggal',
+                    data: 'kegiatan.nama',
                     render: function(data) {
                         if (data == null) {
                             return '-'
@@ -129,7 +128,7 @@
                     orderable: true
                 },
                 {
-                    data: 'jam',
+                    data: 'download',
                     render: function(data) {
                         if (data == null) {
                             return '-'
@@ -137,10 +136,6 @@
                         return data;
 
                     },
-                    orderable: true
-                },
-                {
-                    data: 'countdown',
                     orderable: true
                 },
                 {

@@ -29,6 +29,7 @@ Route::prefix('admin')->group(function() {
         Route::resource('/roles', App\Http\Controllers\RoleController::class);
         Route::resource('/user-admin', App\Http\Controllers\UserController::class);
         Route::resource('/user-madrasah', App\Http\Controllers\UserMadrasahController::class);
+        Route::resource('/user-guru', App\Http\Controllers\UserGuruController::class);
 
         Route::resource('/madrasah', App\Http\Controllers\MadrasahController::class);
         Route::get('/details-madrasah/{id}', [App\Http\Controllers\MadrasahController::class, 'details'])->name('details-madrasah');
@@ -40,7 +41,18 @@ Route::prefix('admin')->group(function() {
         Route::get('/rdm-madrasah/{id}', [App\Http\Controllers\MadrasahController::class, 'rdm'])->name('rdm-madrasah');
         Route::put('/rdm-madrasah/{id}/update', [App\Http\Controllers\MadrasahController::class, 'updateRdm'])->name('madrasah.updateRdm');
 
+        Route::resource('/guru', App\Http\Controllers\GuruController::class);
         Route::resource('/pengumuman', App\Http\Controllers\PengumumanController::class);
+        Route::resource('/kegiatan', App\Http\Controllers\KegiatanController::class);
+        Route::resource('/panduan-operator', App\Http\Controllers\PanduanOpController::class);
+        Route::resource('/panduan-guru', App\Http\Controllers\PanduanGuruController::class);
+        Route::resource('/bank-soal', App\Http\Controllers\BankSoalController::class);
+
+        Route::resource('/kisi-kisi', App\Http\Controllers\KisiSoalController::class);
+        Route::get('/download-kisi-kisi/{id}', [App\Http\Controllers\KisiSoalController::class, 'print'])->name('downloadKisiSoal');
+
+        Route::resource('/template-soal', App\Http\Controllers\TemplateSoalController::class);
+        Route::get('/download-template-soal/{id}', [App\Http\Controllers\TemplateSoalController::class, 'print'])->name('downloadTemplateSoal');
     });
 });
 

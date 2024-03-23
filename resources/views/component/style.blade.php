@@ -19,3 +19,6 @@
 
 <!-- datepicker css -->
 <link rel="stylesheet" href="{{ asset('Admin/dist/assets/libs/flatpickr/flatpickr.min.css') }}">
+
+<link href="{{ asset('Admin/dist/assets/libs/fullcalendar/main.min.css') }}" rel="stylesheet" type="text/css" />
+

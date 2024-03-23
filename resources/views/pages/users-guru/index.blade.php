@@ -1,11 +1,11 @@
 @extends('layouts.main')
 @section('title')
-    Pengumuman
+    User Guru
 @endsection
 
 
 @section('content')
-    @foreach ($data as $item)
+    @foreach ($users as $item)
         <div id="hapusModal_{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel"
             aria-hidden="true" data-bs-scroll="true">
             <div class="modal-dialog">
@@ -15,12 +15,12 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('pengumuman.destroy', $item->id) }}" method="POST"
+                        <form action="{{ route('user-guru.destroy', $item->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('delete')
 
-                            <p>Yakin ingin menghapus data <b style="color: red">{{ $item->judul }}</b> ?</p>
+                            <p>Yakin ingin menghapus data <b style="color: red">{{ $item->name }}</b> ?</p>
 
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm waves-effect"
@@ -38,17 +38,16 @@
         <div class="card">
             <div class="card-body">
                 <div class="flex-container mb-4">
-                    <h4 class="card-title">Pengumuman</h4>
-                    <a href="{{ route('pengumuman.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
+                    <h4 class="card-title">User</h4>
+                    <a href="{{ route('user-guru.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
                 </div>
                 <table class="table table-search row-border hover" id="crudTable">
                     <thead>
                         <tr>
                             <th width="4%">#</th>
-                            <th>Judul</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>Status</th>
+                            <th>Nama Guru</th>
+                            <th>Username</th>
+                            <th>MPGM</th>
                             <th width="10%"><i class="fa fa-cog"></i></th>
                         </tr>
                     </thead>
@@ -94,7 +93,7 @@
             ],
             ordering: true,
             ajax: {
-                url: '{{ route('pengumuman.index') }}',
+                url: '{{ route('user-guru.index') }}',
 
             },
             columns: [{
@@ -107,7 +106,7 @@
                     }
                 },
                 {
-                    data: 'judul',
+                    data: 'name',
                     render: function(data) {
                         if (data == null) {
                             return '-'
@@ -118,7 +117,7 @@
                     orderable: true
                 },
                 {
-                    data: 'tanggal',
+                    data: 'username',
                     render: function(data) {
                         if (data == null) {
                             return '-'
@@ -129,7 +128,7 @@
                     orderable: true
                 },
                 {
-                    data: 'jam',
+                    data: 'guru.mgmp',
                     render: function(data) {
                         if (data == null) {
                             return '-'
@@ -137,10 +136,6 @@
                         return data;
 
                     },
-                    orderable: true
-                },
-                {
-                    data: 'countdown',
                     orderable: true
                 },
                 {

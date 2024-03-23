@@ -19,8 +19,13 @@
                     <div class="p-4 pt-0">
 
                         <div class="mt-n5 position-relative text-center border-bottom pb-3">
-                            <img src="{{ asset('Admin/dist/assets/images/users/avatar-3.jpg') }}" alt=""
-                                class="avatar-xl rounded-circle img-thumbnail">
+                            @if ($madrasah->details->foto)
+                                <img src="{{ url('storage/foto_madrasah/' . $madrasah->details->foto) }}" alt=""
+                                    class="avatar-xl rounded-circle img-thumbnail" style="object-fit: cover;">
+                            @else
+                                <img src="{{ asset('Admin/dist/assets/images/logo-dark-sm.png') }}" alt=""
+                                    class="avatar-xl rounded-circle img-thumbnail">
+                            @endif
 
                             <div class="mt-3">
                                 <h5 class="mb-1">{{ $madrasah->details->kamad ?? 'Kepala Madrasah' }}</h5>
@@ -131,7 +136,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('mora-madrasah', $madrasah->id) }}" role="tab">
-                                <span>Pelasanaan</span>
+                                <span>Moda Ujian</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -156,10 +161,10 @@
 
                                 <div class="row mt-2">
                                     <div class="col-4">
-                                        <label for="formrow-firstname-input" class="form-label">PAS 7 8 9</label>
+                                        <label for="formrow-firstname-input" class="form-label">Jenis Server</label>
                                         <select name="jenis_server_rdm" class="form-select">
                                             <option value="">Pilih</option>
-                                            <option value="KERTAS"
+                                            <option value="KERTAS" hidden
                                                 {{ $madrasah->rdm->jenis_server_rdm == 'KERTAS' ? 'selected' : '' }}>
                                                 Kertas</option>
                                             <option value="LOKAL"
@@ -176,10 +181,8 @@
 
                                     <div class="col-4">
                                         <label for="formrow-firstname-input" class="form-label">User RDM</label>
-                                        <input type="text" placeholder="" name="user_rdm"
-                                            id="formrow-firstname-input"
-                                            value="{{ old('user_rdm', $madrasah->rdm->user_rdm) }}"
-                                            class="form-control">
+                                        <input type="text" placeholder="" name="user_rdm" id="formrow-firstname-input"
+                                            value="{{ old('user_rdm', $madrasah->rdm->user_rdm) }}" class="form-control">
                                     </div>
                                     <div class="col-4">
                                         <label for="formrow-firstname-input" class="form-label">Password RDM</label>
@@ -199,7 +202,8 @@
                                             value="{{ old('link_rdm_mandiri', $madrasah->rdm->link_rdm_mandiri) }}"
                                             class="form-control">
                                         @if ($madrasah->rdm->link_rdm_mandiri)
-                                            <a class="mt-2" target="_blank" href="{{ $madrasah->rdm->link_rdm_mandiri }}"><i
+                                            <a class="mt-2" target="_blank"
+                                                href="{{ $madrasah->rdm->link_rdm_mandiri }}"><i
                                                     class="bx bx-link-external"></i> Go to </a>
                                         @endif
                                     </div>
@@ -207,11 +211,12 @@
                                         <label for="formrow-firstname-input" class="form-label">Link RDM
                                             Ma`arif</label>
                                         <input type="text" placeholder="" name="link_rdm_maarif"
-                                            id="formrow-firstname-input"
+                                            id="formrow-firstname-input" {{ Auth::user()->posisi == 'MADRASAH' ? 'readonly' : '' }}
                                             value="{{ old('link_rdm_maarif', $madrasah->rdm->link_rdm_maarif) }}"
                                             class="form-control">
                                         @if ($madrasah->rdm->link_rdm_maarif)
-                                            <a class="mt-2" target="_blank" href="{{ $madrasah->rdm->link_rdm_maarif }}"><i
+                                            <a class="mt-2" target="_blank"
+                                                href="{{ $madrasah->rdm->link_rdm_maarif }}"><i
                                                     class="bx bx-link-external"></i> Go to </a>
                                         @endif
                                     </div>

@@ -31,6 +31,7 @@
             <!-- start page title -->
             <div class="page-title-box align-self-center d-none d-md-block">
                 <h4 class="page-title mb-0">@yield('title')</h4>
+                <span id="tanggalwaktu">Loading ...</span>
             </div>
             <!-- end page title -->
 

@@ -7,7 +7,9 @@ use App\Models\RdmMadrasah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,10 +29,21 @@ class MadrasahController extends Controller
     
                 return DataTables::of($query)
                     ->addColumn('action', function ($item) {
-                        return '
-                            <a href="' . route('madrasah.edit', $item->id). '" class="btn btn-warning btn-sm shadow-sm mr-1" title="Edit"><i class="fas fa-pen"></i></a>
-                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#hapusModal_' . $item->id .'"><i class="fas fa-trash-alt"></i></button>
-                        ';
+                        $editButton = '';
+                        // $deleteButton = '';
+                            if (Gate::allows('madrasah.edit')) {
+                                $editButton = '<a href="' . route('madrasah.edit', $item->id). '" class="btn btn-warning btn-sm shadow-sm mr-1" title="Edit"><i class="fas fa-pen"></i></a>';
+                            }
+                            // if (Gate::allows('kegiatan.delete')) {
+                            //     $deleteButton = '<button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#hapusModal_' . $item->id .'"><i class="fas fa-trash-alt"></i></button>';
+                            // }
+                            return '
+                                ' . $editButton .'
+                            ';
+                        // return '
+                            
+                        //     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#hapusModal_' . $item->id .'"><i class="fas fa-trash-alt"></i></button>
+                        // ';
                     })
                     ->rawColumns(['action'])
                     ->make();
@@ -65,34 +78,6 @@ class MadrasahController extends Controller
         ]);
 
         try {
-            // if($request->file('foto')) {
-            //     $foto = $request->file('foto');
-            //     $foto->storeAs('public/foto_siswa', $foto->hashName());
-
-            //     $user->update([
-            //         'nama_depan'        => $request->input('nama_depan'),
-            //         'nama_belakang'     => $request->input('nama_belakang'),
-            //         'nisn'              => $request->input('nisn'),
-            //         'nik'               => $request->input('nik'),
-            //         'nis_local'         => $request->input('nis_local'),
-            //         'kewarganegaraan'   => $request->input('kewarganegaraan'),
-            //         'tempat_lahir'      => $request->input('tempat_lahir'),
-            //         'tanggal_lahir'     => $request->input('tanggal_lahir'),
-            //         'gender'            => $request->input('gender'), 
-            //         'saudara'           => $request->input('saudara'),
-            //         'anak_ke'           => $request->input('anak_ke'),
-            //         'telepon'           => $request->input('telepon'),
-            //         'main_classes_id'   => $request->input('main_classes_id'),
-            //         'years_id'          => $request->input('years_id'),
-            //         'status'            => $request->input('status'),
-            //         'jurusan'           => $request->input('jurusan'), 
-            //         'foto'              => $foto->hashName()
-            //     ]);
-
-            //     $user->users()->update([
-            //         'email'     => $request->input('email'),
-            //     ]);
-            // }
             $madrasah->update([
                 'npsn'        => $request->input('npsn'),
                 'nsm'     => $request->input('nsm'),
@@ -155,9 +140,40 @@ class MadrasahController extends Controller
         DB::beginTransaction();
 
         $madrasah = Madrasah::with('details')->findOrFail($id);
+        $foto = $request->file('foto');
         try {
-            $input = $request->all();
-            $madrasah->details->update($input);
+            if($request->hasFile('foto'))
+            {
+                if ($madrasah->details->foto) {
+                    Storage::delete('public/foto_madrasah/' . $madrasah->details->foto);
+                }
+                $nama_file = $foto->hashName();
+                $foto->storeAs('public/foto_madrasah', $nama_file);
+                
+                $madrasah->details()->update([
+                    'foto'              => $foto->hashName(),
+                    'kamad'             => $request->input('kamad'),
+                    'nip'               => $request->input('nip'),
+                    'telepon_kamad'     => $request->input('telepon_kamad'),
+                    'op_satu'           => $request->input('op_satu'),
+                    'telepon_op_satu'   => $request->input('telepon_op_satu'),
+                    'op_dua'            => $request->input('op_dua'),
+                    'telepon_op_dua'    => $request->input('telepon_op_dua'),
+                    'teknisi'           => $request->input('teknisi'),
+                    'telepon_teknisi'   => $request->input('telepon_teknisi'),
+                ]);
+            }
+            $madrasah->details()->update([
+                'kamad'             => $request->input('kamad'),
+                'nip'               => $request->input('nip'),
+                'telepon_kamad'     => $request->input('telepon_kamad'),
+                'op_satu'           => $request->input('op_satu'),
+                'telepon_op_satu'   => $request->input('telepon_op_satu'),
+                'op_dua'            => $request->input('op_dua'),
+                'telepon_op_dua'    => $request->input('telepon_op_dua'),
+                'teknisi'           => $request->input('teknisi'),
+                'telepon_teknisi'   => $request->input('telepon_teknisi'),
+            ]);
     
             DB::commit();
             

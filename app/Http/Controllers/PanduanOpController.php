@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pengumuman;
-use Carbon\Carbon;
+use App\Models\PanduanOp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -11,44 +10,38 @@ use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 
-class PengumumanController extends Controller
+class PanduanOpController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $data = Pengumuman::orderBy('tanggal', 'desc')->get();
+        $data = PanduanOp::latest()->get();
+
         if (request()->ajax()) {
-            $query = Pengumuman::orderBy('tanggal', 'desc')->get();
+            $query = PanduanOp::query();
 
             return DataTables::of($query)
-                ->addColumn('countdown', function($item){
-                    $batas_waktu = Carbon::now();
-                    if($batas_waktu < $item->tanggal){
-                        return '<span class="badge bg-warning"><i class="bx bx-hourglass bx-spin font-size-16 align-middle me-2"></i>Belum Terlaksana</span>';
-                    } else {
-                        return '<span class="badge bg-success"><i class="bx bx-check-double font-size-16 align-middle me-2"></i> Terlaksana</span>';
-                        // return '<span class="badge badge-success">Terlaksana</span>';
-                    }
+                ->addColumn('deskripsi', function($item) {
+                    return '
+                       '. $item->deskripsi .'
+                    ';
                 })
                 ->addColumn('action', function ($item) {
                     $editButton = '';
                     $deleteButton = '';
-                        if (Gate::allows('pengumuman.edit')) {
-                            $editButton = '<a href="' . route('pengumuman.edit', $item->id). '" class="btn btn-warning btn-sm shadow-sm mr-1" title="Edit"><i class="fas fa-pen"></i></a>';
+                        if (Gate::allows('operator.edit')) {
+                            $editButton = '<a href="' . route('panduan-operator.edit', $item->id). '" class="btn btn-warning btn-sm shadow-sm mr-1" title="Edit"><i class="fas fa-pen"></i></a>';
                         }
-                        if (Gate::allows('pengumuman.delete')) {
+                        if (Gate::allows('operator.delete')) {
                             $deleteButton = '<button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#hapusModal_' . $item->id .'"><i class="fas fa-trash-alt"></i></button>';
                         }
                         return '
                             ' . $editButton . $deleteButton .'
                         ';
                 })
-                ->rawColumns(['action', 'countdown'])
+                ->rawColumns(['action', 'deskripsi'])
                 ->make();
         }
-        return view('pages.pengumuman.index', compact('data'));
+        return view('pages.panduan-operator.index', compact('data'));
     }
 
     /**
@@ -56,7 +49,7 @@ class PengumumanController extends Controller
      */
     public function create()
     {
-        return view('pages.pengumuman.create');
+        return view('pages.panduan-operator.create');
     }
 
     /**
@@ -66,27 +59,24 @@ class PengumumanController extends Controller
     {
         $request->validate([
             'judul' => 'required',
-            'isi' => 'required',
-            'tanggal' => 'required',
-            'jam' => 'required',
+            'link' => 'required',
         ]);
 
 
         DB::beginTransaction();
         try {
-            $pengumuman = Pengumuman::create([
+            $panduan = PanduanOp::create([
                 'judul'      => $request->input('judul'),
-                'isi'     => $request->input('isi'),
-                'tanggal'  => $request->input('tanggal'),
-                'jam'    => $request->input('jam')
+                'link'     => $request->input('link'),
+                'deskripsi'     => $request->input('deskripsi'),
             ]);
 
-            $pengumuman->save();
+            $panduan->save();
             DB::commit();
             
             //redirect dengan pesan sukses
-            Alert::toast('Pengumuman Berhasil Disimpan!','success');
-            return redirect()->route('pengumuman.index');
+            Alert::toast('Panduan Berhasil Disimpan!','success');
+            return redirect()->route('panduan-operator.index');
                 
         } catch (\Throwable $e) {
             DB::rollback();
@@ -109,9 +99,9 @@ class PengumumanController extends Controller
      */
     public function edit(string $id)
     {
-        $pengumuman = Pengumuman::findOrFail($id);
+        $panduan = PanduanOp::findOrFail($id);
 
-        return view('pages.pengumuman.edit', compact('pengumuman'));
+        return view('pages.panduan-operator.edit', compact('panduan'));
     }
 
     /**
@@ -121,26 +111,25 @@ class PengumumanController extends Controller
     {
         $request->validate([
             'judul' => 'required',
-            'isi' => 'required',
-            'tanggal' => 'required',
-            'jam' => 'required',
+            'link' => 'required',
+            
         ]);
 
-        $pengumuman = Pengumuman::findOrFail($id);
+        $panduan = PanduanOp::findOrFail($id);
         DB::beginTransaction();
         try {
-            $pengumuman->update([
+            $panduan->update([
                 'judul'      => $request->input('judul'),
-                'isi'     => $request->input('isi'),
-                'tanggal'  => $request->input('tanggal'),
-                'jam'    => $request->input('jam')
+                'link'     => $request->input('link'),
+                'deskripsi'     => $request->input('deskripsi'),
+
             ]);
 
             DB::commit();
             
             //redirect dengan pesan sukses
-            Alert::toast('Pengumuman Berhasil Diupdate!','success');
-            return redirect()->route('pengumuman.index');
+            Alert::toast('Panduan Berhasil Diupdate!','success');
+            return redirect()->route('panduan-operator.index');
                 
         } catch (\Throwable $e) {
             DB::rollback();
@@ -155,15 +144,15 @@ class PengumumanController extends Controller
      */
     public function destroy(string $id)
     {
-        $pengumuman = Pengumuman::findOrFail($id);
-        if($pengumuman){
-            $pengumuman->delete();
+        $panduan = PanduanOp::findOrFail($id);
+        if($panduan){
+            $panduan->delete();
             //redirect dengan pesan sukses
-            Alert::toast('Pengumuman Berhasil Dihapus!','warning');
+            Alert::toast('Panduan Berhasil Dihapus!','warning');
             return Redirect::back();
         }else{
             //redirect dengan pesan error
-            Alert::toast('Pengumuman Gagal Dihapus!','error');
+            Alert::toast('Panduan Gagal Dihapus!','error');
             return Redirect::back();
         }
     }

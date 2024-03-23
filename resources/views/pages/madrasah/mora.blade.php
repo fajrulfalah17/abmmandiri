@@ -19,8 +19,13 @@
                     <div class="p-4 pt-0">
 
                         <div class="mt-n5 position-relative text-center border-bottom pb-3">
-                            <img src="{{ asset('Admin/dist/assets/images/users/avatar-3.jpg') }}" alt=""
+                            @if ($madrasah->details->foto)
+                                <img src="{{ url('storage/foto_madrasah/' . $madrasah->details->foto) }}" alt=""
+                                    class="avatar-xl rounded-circle img-thumbnail" style="object-fit: cover;">
+                            @else
+                            <img src="{{ asset('Admin/dist/assets/images/logo-dark-sm.png') }}" alt=""
                                 class="avatar-xl rounded-circle img-thumbnail">
+                            @endif
 
                             <div class="mt-3">
                                 <h5 class="mb-1">{{ $madrasah->details->kamad ?? 'Kepala Madrasah' }}</h5>
@@ -131,7 +136,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="{{ route('mora-madrasah', $madrasah->id) }}" role="tab">
-                                <span>Pelasanaan</span>
+                                <span>Moda Ujian</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -265,7 +270,7 @@
                                     <div class="col-6">
                                         <label for="formrow-firstname-input" class="form-label">Link Hosting
                                             Ma`arif</label>
-                                        <input type="text" placeholder="" name="link_hosting_maarif"
+                                        <input type="text" placeholder="" name="link_hosting_maarif" {{ Auth::user()->posisi == 'MADRASAH' ? 'readonly' : '' }}
                                             id="formrow-firstname-input"
                                             value="{{ old('link_hosting_maarif', $madrasah->mora->link_hosting_maarif) }}"
                                             class="form-control">

@@ -19,8 +19,13 @@
                     <div class="p-4 pt-0">
 
                         <div class="mt-n5 position-relative text-center border-bottom pb-3">
-                            <img src="{{ asset('Admin/dist/assets/images/users/avatar-3.jpg') }}" alt=""
-                                class="avatar-xl rounded-circle img-thumbnail">
+                            @if ($madrasah->details->foto)
+                                <img src="{{ url('storage/foto_madrasah/' . $madrasah->details->foto) }}" alt=""
+                                    class="avatar-xl rounded-circle img-thumbnail" style="object-fit: cover;">
+                            @else
+                                <img src="{{ asset('Admin/dist/assets/images/logo-dark-sm.png') }}" alt=""
+                                    class="avatar-xl rounded-circle img-thumbnail">
+                            @endif
 
                             <div class="mt-3">
                                 <h5 class="mb-1">{{ $madrasah->details->kamad ?? 'Kepala Madrasah' }}</h5>
@@ -156,10 +161,11 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="font-size-16 mb-3">Data Madrasah</h5>
-                            <form action="{{ route('madrasah.update', $madrasah->id) }}" enctype="multipart/form-data" method="POST">
+                            <form action="{{ route('madrasah.update', $madrasah->id) }}" enctype="multipart/form-data"
+                                method="POST">
                                 @csrf
                                 @method('put')
-                                
+
                                 <div class="row mt-2">
                                     <div class="col-6">
                                         <label for="formrow-firstname-input" class="form-label">Nama Madrasah</label>

@@ -31,7 +31,7 @@
         <ul class="metismenu list-unstyled" id="side-menu">
             <li class="menu-title" data-key="t-menu">Dashboard</li>
 
-            @can('pengumuman.index')
+            @can('dashboard.index')
                 <li>
                     <a href="{{ route('dashboard') }}">
                         <i class="bx bx-home-alt icon nav-icon"></i>
@@ -51,59 +51,86 @@
                 </li>
             @endcan
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-food-menu icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-panduan">Panduan</span>
-                    <span class="badge rounded-pill bg-primary"> </span>
-                </a>
-            </li>
+            @can('operator.index')
+                <li>
+                    <a href="{{ route('panduan-operator.index') }}">
+                        <i class="bx bx-food-menu icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-panduan">Panduan</span>
+                        <span class="badge rounded-pill bg-primary"> </span>
+                    </a>
+                </li>
+            @endcan
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-clipboard icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-panduan">Template</span>
-                    <span class="badge rounded-pill bg-primary"> </span>
-                </a>
-            </li>
+            @can('operator.index')
+                <li>
+                    <a href="{{ route('bank-soal.index') }}">
+                        <i class="bx bx-clipboard icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-panduan">Bank Soal</span>
+                        <span class="badge rounded-pill bg-primary"> </span>
+                    </a>
+                </li>
+            @endcan
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-food-menu icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-panduan">Panduan</span>
-                    <span class="badge rounded-pill bg-success"> </span>
-                </a>
-            </li>
+            @can('guru.index')
+                <li>
+                    <a href="{{ route('panduan-guru.index') }}">
+                        <i class="bx bx-food-menu icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-panduan">Panduan</span>
+                        <span class="badge rounded-pill bg-success"> </span>
+                    </a>
+                </li>
+            @endcan
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-clipboard icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-panduan">Template</span>
-                    <span class="badge rounded-pill bg-success"> </span>
-                </a>
-            </li>
+            @can('guru.index')
+                <li>
+                    <a href="{{ route('kisi-kisi.index') }}">
+                        <i class="bx bx-clipboard icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-panduan">Kisi Kisi</span>
+                        <span class="badge rounded-pill bg-success"> </span>
+                    </a>
+                </li>
+            @endcan
 
-            <li>
-                <a href="#">
-                    <i class="bx bxs-user-voice icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-panduan">Guru</span>
-                    <span class="badge rounded-pill bg-success"> </span>
-                </a>
-            </li>
+            @can('guru.index')
+                <li>
+                    <a href="{{ route('template-soal.index') }}">
+                        <i class="bx bx-clipboard icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-panduan">Template Soal</span>
+                        <span class="badge rounded-pill bg-success"> </span>
+                    </a>
+                </li>
+            @endcan
 
-            <li class="menu-title" data-key="t-applications">Master</li>
+            @can('guru.index')
+                <li>
+                    <a href="{{ route('guru.index') }}">
+                        <i class="bx bxs-user-voice icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-panduan">Guru</span>
+                        <span class="badge rounded-pill bg-success"> </span>
+                    </a>
+                </li>
+            @endcan
 
-            <li>
-                <a href="#">
-                    <i class="bx bx-task icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-dashboard">Kegiatan</span>
-                </a>
-                <a href="{{ route('pengumuman.index') }}">
-                    <i class="bx bx-news icon nav-icon"></i>
-                    <span class="menu-item" data-key="t-dashboard">Pengumuman</span>
-                </a>
-            </li>
+            @can('users.index')
+                <li class="menu-title" data-key="t-applications">Master</li>
+            @endcan
 
+            @can('users.index')
+                <li>
+                    <a href="{{ route('kegiatan.index') }}">
+                        <i class="bx bx-task icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-kegiatan">Kegiatan</span>
+                    </a>
+                </li>
+            @endcan
+            @can('users.index')
+                <li>
+                    <a href="{{ route('pengumuman.index') }}">
+                        <i class="bx bx-news icon nav-icon"></i>
+                        <span class="menu-item" data-key="t-pengumuman">Pengumuman</span>
+                    </a>
+                </li>
+            @endcan
             @can('users.index')
                 <li class="menu-title" data-key="t-applications">Manage</li>
             @endcan
@@ -111,11 +138,11 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i class="fas fa-cogs"></i>
-                        <span class="menu-item" data-key="t-email">Authentication</span>
+                        <span class="menu-item" data-key="t-user">Authentication</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('user-admin.index') }}" data-key="t-inbox">User Admin</a></li>
-                        <li><a href="email-inbox.html" data-key="t-inbox">User Guru</a></li>
+                        <li><a href="{{ route('user-guru.index') }}" data-key="t-inbox">User Guru</a></li>
                         <li><a href="email-inbox.html" data-key="t-inbox">User Pejabat</a></li>
                         <li><a href="{{ route('user-madrasah.index') }}" data-key="t-inbox">User Madrasah</a></li>
                         <li><a href="{{ route('roles.index') }}" data-key="t-read-email">Roles</a></li>

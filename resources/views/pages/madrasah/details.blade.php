@@ -19,8 +19,13 @@
                     <div class="p-4 pt-0">
 
                         <div class="mt-n5 position-relative text-center border-bottom pb-3">
-                            <img src="{{ asset('Admin/dist/assets/images/users/avatar-3.jpg') }}" alt=""
+                            @if ($madrasah->details->foto)
+                                <img src="{{ url('storage/foto_madrasah/' . $madrasah->details->foto) }}" alt=""
+                                    class="avatar-xl rounded-circle img-thumbnail" style="object-fit: cover;">
+                            @else
+                            <img src="{{ asset('Admin/dist/assets/images/logo-dark-sm.png') }}" alt=""
                                 class="avatar-xl rounded-circle img-thumbnail">
+                            @endif
 
                             <div class="mt-3">
                                 <h5 class="mb-1">{{ $madrasah->details->kamad ?? 'Kepala Madrasah' }}</h5>
@@ -46,7 +51,7 @@
                                         <td class="text-muted">{{ $madrasah->details->teknisi ?? 'Teknisi' }}</td>
                                     </tr>
                                     <tr>
-                                        <th class="fw-bold">Telepon :</th>
+                                        <th class="fw-bold">WhatsApp :</th>
                                         <td class="text-muted">{{ $madrasah->details->telepon_teknisi ?? '-' }}</td>
                                     </tr>
                                     <!-- end tr -->
@@ -56,7 +61,7 @@
                                         <td class="text-muted">{{ $madrasah->details->op_satu ?? 'Operator 1' }}</td>
                                     </tr>
                                     <tr>
-                                        <th class="fw-bold">Telepon :</th>
+                                        <th class="fw-bold">WhatsApp :</th>
                                         <td class="text-muted">{{ $madrasah->details->telepon_op_satu ?? '-' }}</td>
                                     </tr>
                                     <!-- end tr -->
@@ -66,7 +71,7 @@
                                         <td class="text-muted">{{ $madrasah->details->op_dua ?? 'Operator 2' }}</td>
                                     </tr>
                                     <tr>
-                                        <th class="fw-bold">Telepon :</th>
+                                        <th class="fw-bold">WhatsApp :</th>
                                         <td class="text-muted">{{ $madrasah->details->telepon_op_dua ?? '-' }}</td>
                                     </tr>
                                     <!-- end tr -->
@@ -209,17 +214,24 @@
 
                                 <h5 class="font-size-16 mt-3">Data Teknisi</h5>
                                 <div class="row mt-2">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="formrow-firstname-input" class="form-label">Nama</label>
                                         <input type="text" placeholder="" name="teknisi" id="formrow-firstname-input"
                                             value="{{ old('teknisi', $madrasah->details->teknisi) }}"
                                             class="form-control">
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="formrow-firstname-input" class="form-label">Telepon</label>
                                         <input type="text" placeholder="" name="telepon_teknisi"
                                             id="formrow-firstname-input"
                                             value="{{ old('telepon_teknisi', $madrasah->details->telepon_teknisi) }}"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="formrow-firstname-input" class="form-label">Foto</label>
+                                        <input type="file" placeholder="" name="foto"
+                                            id="formrow-firstname-input"
+                                            value=""
                                             class="form-control">
                                     </div>
                                 </div>

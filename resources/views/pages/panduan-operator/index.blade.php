@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('title')
-    Pengumuman
+    Panduan Operator
 @endsection
 
 
@@ -15,7 +15,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('pengumuman.destroy', $item->id) }}" method="POST"
+                        <form action="{{ route('panduan-operator.destroy', $item->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             @method('delete')
@@ -38,23 +38,24 @@
         <div class="card">
             <div class="card-body">
                 <div class="flex-container mb-4">
-                    <h4 class="card-title">Pengumuman</h4>
-                    <a href="{{ route('pengumuman.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
+                    <h4 class="card-title">Panduan</h4>
+                    <a href="{{ route('panduan-operator.create') }}" class="btn btn-success btn-sm btn-flat">Tambah</a>
                 </div>
-                <table class="table table-search row-border hover" id="crudTable">
-                    <thead>
-                        <tr>
-                            <th width="4%">#</th>
-                            <th>Judul</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>Status</th>
-                            <th width="10%"><i class="fa fa-cog"></i></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-search row-border hover" id="crudTable">
+                        <thead>
+                            <tr>
+                                <th width="4%">#</th>
+                                <th>Judul</th>
+                                <th>Deskripsi</th>
+                                <th>Link</th>
+                                <th width="15%"><i class="fa fa-cog"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
             <!-- end card body -->
@@ -94,7 +95,7 @@
             ],
             ordering: true,
             ajax: {
-                url: '{{ route('pengumuman.index') }}',
+                url: '{{ route('panduan-operator.index') }}',
 
             },
             columns: [{
@@ -118,29 +119,19 @@
                     orderable: true
                 },
                 {
-                    data: 'tanggal',
-                    render: function(data) {
-                        if (data == null) {
-                            return '-'
-                        }
-                        return data;
-
-                    },
+                    data: 'deskripsi',
                     orderable: true
                 },
                 {
-                    data: 'jam',
+                    data: 'link',
                     render: function(data) {
                         if (data == null) {
-                            return '-'
+                            return '-';
                         }
-                        return data;
-
+                        return '<button class="btn btn-primary btn-sm"><a class="text-white" target="_blank" href="' +
+                            data +
+                            '"><i class="fa fa-download"></i> Download </a></button>';
                     },
-                    orderable: true
-                },
-                {
-                    data: 'countdown',
                     orderable: true
                 },
                 {
